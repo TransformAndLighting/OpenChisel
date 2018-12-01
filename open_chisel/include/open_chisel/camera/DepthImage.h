@@ -45,6 +45,13 @@ namespace chisel
                 data = new DataType[width * height];
             }
 
+            DepthImage(int w, int h, const DataType * pixels) :
+                data(nullptr), width(w), height(h)
+            {
+                data = new DataType[width * height];
+                memcpy(data, pixels, size_t(width * height * sizeof(DataType)));
+            }
+
             virtual ~DepthImage()
             {
                 delete [] data;

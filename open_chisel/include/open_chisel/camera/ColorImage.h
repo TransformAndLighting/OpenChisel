@@ -48,6 +48,12 @@ namespace chisel
             {
                 data = new DataType[width * height * numChannels];
             }
+            ColorImage(int w, int h, size_t channels, const DataType * pixels) :
+                data(nullptr), width(w), height(h), numChannels(channels)
+            {
+                data = new DataType[width * height * numChannels];
+                memcpy(data, pixels, size_t(width * height * numChannels * sizeof(DataType)));
+            }
 
             virtual ~ColorImage()
             {

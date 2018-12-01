@@ -22,6 +22,8 @@
 #ifndef QUADRATICTRUNCATOR_H_
 #define QUADRATICTRUNCATOR_H_
 
+#include "Truncator.h"
+
 namespace chisel
 {
 
