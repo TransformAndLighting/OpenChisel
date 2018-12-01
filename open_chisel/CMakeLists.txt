@@ -39,5 +39,5 @@ INSTALL(TARGETS ${PROJECT_NAME}
 )
 
 INSTALL(DIRECTORY include/open_chisel
-	DESTINATION include/open_chisel
+	DESTINATION include
 )
