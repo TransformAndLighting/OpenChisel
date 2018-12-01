@@ -24,10 +24,10 @@ set(SOURCES
 	src/ProjectionIntegrator.cpp
 )
 
+add_library                (${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
+
 include_directories        (${EIGEN_INCLUDE_DIR})
 target_include_directories (${PROJECT_NAME} PUBLIC include)
-
-add_library                (${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 
 set_target_properties      (${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 set_property               (TARGET ${PROJECT_NAME} PROPERTY FOLDER "openchisel")
