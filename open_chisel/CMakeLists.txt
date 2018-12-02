@@ -27,6 +27,7 @@ set(SOURCES
 add_library                (${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 
 include_directories        (${EIGEN_INCLUDE_DIR})
+target_compile_definitions (${PROJECT_NAME} PUBLIC EIGEN_DONT_VECTORIZE=1 EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT=1)
 target_include_directories (${PROJECT_NAME} PUBLIC include)
 
 set_target_properties      (${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
