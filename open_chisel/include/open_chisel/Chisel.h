@@ -85,8 +85,8 @@ namespace chisel
 
                     std::mutex mutex;
                     ChunkIDList garbageChunks;
-                    for(const ChunkID& chunkID : chunksIntersecting)
-                    //parallel_for(chunksIntersecting.begin(), chunksIntersecting.end(), [&](const ChunkID& chunkID)
+                    //for(const ChunkID& chunkID : chunksIntersecting)
+                    parallel_for(chunksIntersecting.begin(), chunksIntersecting.end(), [&](const ChunkID& chunkID)
                     {
                         bool chunkNew = false;
 
@@ -122,7 +122,7 @@ namespace chisel
                         }
                         mutex.unlock();
                     }
-                    //);
+                    );
                     printf("CHISEL: Done with scan\n");
                     GarbageCollect(garbageChunks);
                     //chunkManager->PrintMemoryStatistics();
