@@ -22,6 +22,8 @@
 #ifndef CHISEL_H_
 #define CHISEL_H_
 
+#include <malloc.h>
+
 #include <open_chisel/threading/Threading.h>
 #include <open_chisel/ChunkManager.h>
 #include <open_chisel/ProjectionIntegrator.h>
@@ -37,6 +39,17 @@ namespace chisel
     class Chisel
     {
         public:
+
+            void * operator new(size_t i)
+            {
+                return _aligned_malloc(i, 64);
+            }
+
+            void operator delete(void * p)
+            {
+                _aligned_free(p);
+            }
+
             Chisel();
             Chisel(const Eigen::Vector3i& chunkSize, float voxelResolution, bool useColor);
             virtual ~Chisel();
