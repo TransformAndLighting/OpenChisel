@@ -35,7 +35,7 @@ namespace chisel
     }
 
     Chisel::Chisel(const Eigen::Vector3i& chunkSize, float voxelResolution, bool useColor) :
-            chunkManager(chunkSize, voxelResolution, useColor)
+            chunkManager(new ChunkManager(chunkSize, voxelResolution, useColor))
     {
 
     }
@@ -47,25 +47,25 @@ namespace chisel
 
     void Chisel::Reset()
     {
-        chunkManager.Reset();
+        chunkManager->Reset();
         meshesToUpdate.clear();
     }
 
     void Chisel::UpdateMeshes()
     {
-        chunkManager.RecomputeMeshes(meshesToUpdate);
+        chunkManager->RecomputeMeshes(meshesToUpdate);
         meshesToUpdate.clear();
     }
 
     void Chisel::GarbageCollect(const ChunkIDList& chunks)
     {
-        std::cout << chunkManager.GetChunks().size() << " chunks " << chunkManager.GetAllMeshes().size() << "meshes before collect.";
+        std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes before collect.";
        for (const ChunkID& chunkID : chunks)
        {
-           chunkManager.RemoveChunk(chunkID);
+           chunkManager->RemoveChunk(chunkID);
            meshesToUpdate.erase(chunkID);
        }
-        std::cout << chunkManager.GetChunks().size() << " chunks " << chunkManager.GetAllMeshes().size() << "meshes after collect.";
+        std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes after collect.";
     }
 
     bool Chisel::SaveAllMeshesToPLY(const std::string& filename)
@@ -75,7 +75,7 @@ namespace chisel
         chisel::MeshPtr fullMesh(new chisel::Mesh());
 
         size_t v = 0;
-        for (const std::pair<ChunkID, MeshPtr>& it : chunkManager.GetAllMeshes())
+        for (const std::pair<ChunkID, MeshPtr>& it : chunkManager->GetAllMeshes())
         {
             for (const Vec3& vert : it.second->vertices)
             {
@@ -112,8 +112,8 @@ namespace chisel
                                      float maxDist)
     {
 
-          const float roundToVoxel = 1.0f / chunkManager.GetResolution();
-          const Vec3 halfVoxel = Vec3(0.5, 0.5, 0.5) * chunkManager.GetResolution();
+          const float roundToVoxel = 1.0f / chunkManager->GetResolution();
+          const Vec3 halfVoxel = Vec3(0.5, 0.5, 0.5) * chunkManager->GetResolution();
           std::unordered_map<ChunkID, bool, ChunkHasher> updated;
           std::unordered_map<ChunkID, bool, ChunkHasher> newChunks;
           const Vec3 startCamera = cameraPose.translation();
@@ -150,9 +150,9 @@ namespace chisel
               //        << start.transpose() << " to " << end.transpose() << " : " << raycastVoxels.size() << std::endl;
               for (const Point3& voxelCoords : raycastVoxels)
               {
-                  Vec3 center = chunkManager.GetCentroid(voxelCoords);
+                  Vec3 center = chunkManager->GetCentroid(voxelCoords);
                   bool wasNew = false;
-                  ChunkPtr chunk = chunkManager.GetOrCreateChunkAt(center, &wasNew);
+                  ChunkPtr chunk = chunkManager->GetOrCreateChunkAt(center, &wasNew);
                   if (wasNew)
                   {
                       newChunks[chunk->GetID()] = true;

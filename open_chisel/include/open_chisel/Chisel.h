@@ -54,9 +54,9 @@ namespace chisel
             Chisel(const Eigen::Vector3i& chunkSize, float voxelResolution, bool useColor);
             virtual ~Chisel();
 
-            inline const ChunkManager& GetChunkManager() const { return chunkManager; }
-            inline ChunkManager& GetMutableChunkManager() { return chunkManager; }
-            inline void SetChunkManager(const ChunkManager& manager) { chunkManager = manager; }
+            inline const ChunkManagerPtr& GetChunkManager() const { return chunkManager; }
+            inline ChunkManagerPtr& GetMutableChunkManager() { return chunkManager; }
+            inline void SetChunkManager(const ChunkManagerPtr& manager) { chunkManager = manager; }
 
             void IntegratePointCloud(const ProjectionIntegrator& integrator,
                                      const PointCloud& cloud,
@@ -191,8 +191,8 @@ namespace chisel
             const ChunkSet& GetMeshesToUpdate() const { return meshesToUpdate; }
 
         protected:
-            ChunkManager chunkManager;
-            ChunkSet meshesToUpdate;
+            ChunkManagerPtr chunkManager;
+            ChunkSet        meshesToUpdate;
 
     };
     typedef std::shared_ptr<Chisel> ChiselPtr;

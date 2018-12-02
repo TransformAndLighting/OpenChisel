@@ -189,6 +189,8 @@ namespace chisel
 
             inline const Vec3List& GetCentroids() const { return centroids; }
 
+            inline void CopyCentroids(Vec3List & newCentroids) const { newCentroids = centroids; }
+
             void PrintMemoryStatistics();
 
             void Reset();
