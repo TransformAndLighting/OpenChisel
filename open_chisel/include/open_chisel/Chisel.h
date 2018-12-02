@@ -25,7 +25,7 @@
 #include <malloc.h>
 
 #include <open_chisel/threading/Threading.h>
-#include <open_chisel/ChunkManager.h>
+#include <open_chisel/chunkManager->h>
 #include <open_chisel/ProjectionIntegrator.h>
 #include <open_chisel/geometry/Geometry.h>
 #include <open_chisel/camera/PinholeCamera.h>
@@ -81,7 +81,7 @@ namespace chisel
                     cameraCopy.SetupFrustum(extrinsic, &frustum);
 
                     ChunkIDList chunksIntersecting;
-                    chunkManager.GetChunkIDsIntersecting(frustum, &chunksIntersecting);
+                    chunkManager->GetChunkIDsIntersecting(frustum, &chunksIntersecting);
 
                     std::mutex mutex;
                     ChunkIDList garbageChunks;
@@ -91,13 +91,13 @@ namespace chisel
                         bool chunkNew = false;
 
                         mutex.lock();
-                        if (!chunkManager.HasChunk(chunkID))
+                        if (!chunkManager->HasChunk(chunkID))
                         {
                            chunkNew = true;
-                           chunkManager.CreateChunk(chunkID);
+                           chunkManager->CreateChunk(chunkID);
                         }
 
-                        ChunkPtr chunk = chunkManager.GetChunk(chunkID);
+                        ChunkPtr chunk = chunkManager->GetChunk(chunkID);
                         mutex.unlock();
 
                         bool needsUpdate = integrator.Integrate(depthImage, camera, extrinsic, chunk.get());
@@ -125,7 +125,7 @@ namespace chisel
                     //);
                     printf("CHISEL: Done with scan\n");
                     GarbageCollect(garbageChunks);
-                    //chunkManager.PrintMemoryStatistics();
+                    //chunkManager->PrintMemoryStatistics();
             }
 
             template <class DataType, class ColorType> void IntegrateDepthScanColor(const ProjectionIntegrator& integrator, const std::shared_ptr<const DepthImage<DataType> >& depthImage,  const Transform& depthExtrinsic, const PinholeCamera& depthCamera, const std::shared_ptr<const ColorImage<ColorType> >& colorImage, const Transform& colorExtrinsic, const PinholeCamera& colorCamera)
@@ -134,7 +134,7 @@ namespace chisel
                     depthCamera.SetupFrustum(depthExtrinsic, &frustum);
 
                     ChunkIDList chunksIntersecting;
-                    chunkManager.GetChunkIDsIntersecting(frustum, &chunksIntersecting);
+                    chunkManager->GetChunkIDsIntersecting(frustum, &chunksIntersecting);
 
                     std::mutex mutex;
                     ChunkIDList garbageChunks;
@@ -144,13 +144,13 @@ namespace chisel
 
                         mutex.lock();
                         bool chunkNew = false;
-                        if (!chunkManager.HasChunk(chunkID))
+                        if (!chunkManager->HasChunk(chunkID))
                         {
                            chunkNew = true;
-                           chunkManager.CreateChunk(chunkID);
+                           chunkManager->CreateChunk(chunkID);
                         }
 
-                        ChunkPtr chunk = chunkManager.GetChunk(chunkID);
+                        ChunkPtr chunk = chunkManager->GetChunk(chunkID);
                         mutex.unlock();
 
 
@@ -179,7 +179,7 @@ namespace chisel
                     );
 
                     GarbageCollect(garbageChunks);
-                    //chunkManager.PrintMemoryStatistics();
+                    //chunkManager->PrintMemoryStatistics();
             }
 
             void GarbageCollect(const ChunkIDList& chunks);
