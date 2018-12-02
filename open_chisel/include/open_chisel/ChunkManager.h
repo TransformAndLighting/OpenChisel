@@ -198,13 +198,14 @@ namespace chisel
             bool GetSDFAndGradient(const Eigen::Vector3f& pos, double* dist, Eigen::Vector3f* grad);
             bool GetSDF(const Eigen::Vector3f& pos, double* dist);
 
+            Vec3List centroids;
+
             EIGEN_MAKE_ALIGNED_OPERATOR_NEW
         protected:
             ChunkMap chunks;
             Eigen::Vector3i chunkSize;
             float voxelResolutionMeters;
             Vec3 halfVoxel;
-            Vec3List centroids;
             Eigen::Matrix<int, 3, 8> cubeIndexOffsets;
             MeshMap allMeshes;
             bool useColor;
