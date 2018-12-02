@@ -25,7 +25,7 @@
 #include <malloc.h>
 
 #include <open_chisel/threading/Threading.h>
-#include <open_chisel/chunkManager->h>
+#include <open_chisel/chunkManager.h>
 #include <open_chisel/ProjectionIntegrator.h>
 #include <open_chisel/geometry/Geometry.h>
 #include <open_chisel/camera/PinholeCamera.h>
