@@ -21,8 +21,9 @@
 
 #include <open_chisel/io/PLY.h>
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <vector>
 
 namespace chisel
 {
@@ -121,7 +122,7 @@ namespace chisel
                 unsigned char r, g, b, a;
                 V3PC(void) { ; };
                 V3PC(float ax, float ay, float az, unsigned char ar, unsigned char ag, unsigned char ab, unsigned char aa) : x(ax), y(ay), z(az), r(ar), g(ag), b(ab), a(aa) { ; };
-            }:
+            };
             std::vector<V3PC> vertices(numPoints);
             for (const size_t i=0; i!=numPoints; ++i)
             {
@@ -138,7 +139,7 @@ namespace chisel
                 float x, y, z;
                 V3P(void) { ; };
                 V3P(float ax, float ay, float az) : x(ax), y(ay), z(az) { ; };
-            }:
+            };
             std::vector<V3P> vertices(numPoints);
             for (const size_t i=0; i!=numPoints; ++i)
             {
