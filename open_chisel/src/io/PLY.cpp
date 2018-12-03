@@ -124,7 +124,7 @@ namespace chisel
                 V3PC(float ax, float ay, float az, unsigned char ar, unsigned char ag, unsigned char ab, unsigned char aa) : x(ax), y(ay), z(az), r(ar), g(ag), b(ab), a(aa) { ; };
             };
             std::vector<V3PC> vertices(numPoints);
-            for (const size_t i=0; i!=numPoints; ++i)
+            for (size_t i=0; i!=numPoints; ++i)
             {
                 const auto & pos = mesh->vertices [i];
                 const auto & col = mesh->colors   [i];
@@ -141,7 +141,7 @@ namespace chisel
                 V3P(float ax, float ay, float az) : x(ax), y(ay), z(az) { ; };
             };
             std::vector<V3P> vertices(numPoints);
-            for (const size_t i=0; i!=numPoints; ++i)
+            for (size_t i=0; i!=numPoints; ++i)
             {
                 const auto & pos = mesh->vertices[i];
                 vertices[i] = V3P(pos(0), pos(1), pos(2));
@@ -153,9 +153,9 @@ namespace chisel
         int indices[3] = { 0 };
         for (size_t i = 0; i < mesh->indices.size(); i+=3)
         {
-            indices[0] = mesh->indices.at(i + 0);
-            indices[1] = mesh->indices.at(i + 1);
-            indices[2] = mesh->indices.at(i + 2);
+            indices[0] = int(mesh->indices.at(i + 0));
+            indices[1] = int(mesh->indices.at(i + 1));
+            indices[2] = int(mesh->indices.at(i + 2));
 
             stream.write((const char *)(&n), sizeof(n));
             stream.write((const char *)(indices), 3 * sizeof(indices[0]));
