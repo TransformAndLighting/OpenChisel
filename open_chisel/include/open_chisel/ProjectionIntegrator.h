@@ -69,7 +69,7 @@ namespace chisel
 				const auto cameraPoseTranspose   = cameraPose.linear().transpose();
 				const auto cameraPoseTranslation = cameraPose.translation();
 
-				#pragma omp parallel for
+				//#pragma omp parallel for
 				for (int i = 0; i < int(centroids.size()); i++)
                 {
                     voxelCenter = centroids[i] + origin;

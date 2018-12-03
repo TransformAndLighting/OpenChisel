@@ -85,10 +85,14 @@ namespace chisel
 
                     std::mutex mutex;
                     ChunkIDList garbageChunks;
-                    for(const ChunkID& chunkID : chunksIntersecting)
+                    //for(const ChunkID& chunkID : chunksIntersecting)
                     //parallel_for(chunksIntersecting.begin(), chunksIntersecting.end(), [&](const ChunkID& chunkID)
-                    {
-                        bool chunkNew = false;
+					#pragma omp parallel for
+					for(int i=0; i<int(chunksIntersecting.size()); ++i)
+					{
+						const ChunkID & chunkID = chunksIntersecting[i];
+
+						bool chunkNew = false;
 
                         mutex.lock();
                         if (!chunkManager->HasChunk(chunkID))
