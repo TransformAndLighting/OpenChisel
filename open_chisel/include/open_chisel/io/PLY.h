@@ -29,7 +29,8 @@
 
 namespace chisel
 {
-    bool SaveMeshPLYASCII(const std::string& fileName, const chisel::MeshConstPtr& mesh);
+    bool SaveMeshPLYASCII  (const std::string& fileName, const chisel::MeshConstPtr& mesh);
+    bool SaveMeshPLYBinary (const std::string& fileName, const chisel::MeshConstPtr& mesh);
 }
 
 #endif // PLY_H_ 
