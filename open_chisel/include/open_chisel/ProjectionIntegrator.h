@@ -69,7 +69,8 @@ namespace chisel
 				const auto cameraPoseTranspose   = cameraPose.linear().transpose();
 				const auto cameraPoseTranslation = cameraPose.translation();
 
-                for (size_t i = 0; i < centroids.size(); i++)
+				#pragma omp parallel for
+				for (int i = 0; i < int(centroids.size()); i++)
                 {
                     voxelCenter = centroids[i] + origin;
                     Vec3 voxelCenterInCamera = cameraPoseTranspose * (voxelCenter - cameraPoseTranslation);
@@ -104,9 +105,8 @@ namespace chisel
                             updated = true;
                         }
                     }
-
-
                 }
+
                 return updated;
             }
             template<class DataType, class ColorType> bool IntegrateColor(const std::shared_ptr<const DepthImage<DataType> >& depthImage, const PinholeCamera& depthCamera, const Transform& depthCameraPose, const std::shared_ptr<const ColorImage<ColorType> >& colorImage, const PinholeCamera& colorCamera, const Transform& colorCameraPose, Chunk* chunk) const
