@@ -51,14 +51,14 @@ namespace chisel
 
     void Chunk::AllocateDistVoxels()
     {
-        int totalNum = GetTotalNumVoxels();
+        const size_t totalNum = GetTotalNumVoxels();
         voxels.clear();
         voxels.resize(totalNum, DistVoxel());
     }
 
     void Chunk::AllocateColorVoxels()
     {
-        int totalNum = GetTotalNumVoxels();
+		const size_t totalNum = GetTotalNumVoxels();
         colors.clear();
         colors.resize(totalNum, ColorVoxel());
     }

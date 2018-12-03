@@ -95,7 +95,7 @@ namespace chisel
             }
         }
 
-        printf("Full mesh has %lu verts\n", v);
+        printf("Full mesh has %zu verts\n", v);
         //bool success = SaveMeshPLYASCII(filename, fullMesh);
         bool success = SaveMeshPLYBinary(filename, fullMesh);
 

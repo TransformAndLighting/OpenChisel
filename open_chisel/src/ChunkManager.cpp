@@ -34,7 +34,7 @@ namespace chisel
 {
 
     ChunkManager::ChunkManager() :
-            chunkSize(16, 16, 16), voxelResolutionMeters(0.03)
+            chunkSize(16, 16, 16), voxelResolutionMeters(0.03f)
     {
         CacheCentroids();
     }
@@ -61,7 +61,7 @@ namespace chisel
             {
                 for(int x = 0; x < chunkSize(0); x++)
                 {
-                    centroids[i] = Vec3(x, y, z) * voxelResolutionMeters + halfVoxel;
+                    centroids[i] = Vec3(float(x), float(y), float(z)) * voxelResolutionMeters + halfVoxel;
                     i++;
                 }
             }
@@ -177,7 +177,7 @@ namespace chisel
             {
                 for (int z = minID(2) - 1; z <= maxID(2) + 1; z++)
                 {
-                    Vec3 min = Vec3(x * chunkSize(0), y * chunkSize(1), z * chunkSize(2)) * voxelResolutionMeters;
+                    Vec3 min = Vec3(float(x * chunkSize(0)), float(y * chunkSize(1)), float(z * chunkSize(2))) * voxelResolutionMeters;
                     Vec3 max = min + chunkSize.cast<float>() * voxelResolutionMeters;
                     AABB chunkBox(min, max);
                     if(frustum.Intersects(chunkBox))
@@ -188,7 +188,7 @@ namespace chisel
             }
         }
 
-        //printf("%lu chunks intersect frustum\n", chunkList->size());
+        //printf("%zu chunks intersect frustum\n", chunkList->size());
     }
 
     void ChunkManager::GetChunkIDsIntersecting
@@ -430,7 +430,7 @@ namespace chisel
         if (!GetSDF(posf - Eigen::Vector3f(0, voxelResolutionMeters, 0), &ddyminus)) return false;
         if (!GetSDF(posf - Eigen::Vector3f(0, 0, voxelResolutionMeters), &ddzminus)) return false;
 
-        *grad = Eigen::Vector3f(ddxplus - ddxminus, ddyplus - ddyminus, ddzplus - ddzminus);
+        *grad = Eigen::Vector3f(float(ddxplus - ddxminus), float(ddyplus - ddyminus), float(ddzplus - ddzminus));
         grad->normalize();
         return true;
     }
@@ -473,14 +473,14 @@ namespace chisel
         const int z_1 = z_0 + 1;
 
 
-        const ColorVoxel* v_000 = GetColorVoxel(Vec3(x_0, y_0, z_0));
-        const ColorVoxel* v_001 = GetColorVoxel(Vec3(x_0, y_0, z_1));
-        const ColorVoxel* v_011 = GetColorVoxel(Vec3(x_0, y_1, z_1));
-        const ColorVoxel* v_111 = GetColorVoxel(Vec3(x_1, y_1, z_1));
-        const ColorVoxel* v_110 = GetColorVoxel(Vec3(x_1, y_1, z_0));
-        const ColorVoxel* v_100 = GetColorVoxel(Vec3(x_1, y_0, z_0));
-        const ColorVoxel* v_010 = GetColorVoxel(Vec3(x_0, y_1, z_0));
-        const ColorVoxel* v_101 = GetColorVoxel(Vec3(x_1, y_0, z_1));
+        const ColorVoxel* v_000 = GetColorVoxel(Vec3(float(x_0), float(y_0), float(z_0)));
+        const ColorVoxel* v_001 = GetColorVoxel(Vec3(float(x_0), float(y_0), float(z_1)));
+        const ColorVoxel* v_011 = GetColorVoxel(Vec3(float(x_0), float(y_1), float(z_1)));
+        const ColorVoxel* v_111 = GetColorVoxel(Vec3(float(x_1), float(y_1), float(z_1)));
+        const ColorVoxel* v_110 = GetColorVoxel(Vec3(float(x_1), float(y_1), float(z_0)));
+        const ColorVoxel* v_100 = GetColorVoxel(Vec3(float(x_1), float(y_0), float(z_0)));
+        const ColorVoxel* v_010 = GetColorVoxel(Vec3(float(x_0), float(y_1), float(z_0)));
+        const ColorVoxel* v_101 = GetColorVoxel(Vec3(float(x_1), float(y_0), float(z_1)));
 
         if(!v_000 || !v_001 || !v_011 || !v_111 || !v_110 || !v_100 || !v_010 || !v_101)
         {
@@ -636,7 +636,7 @@ namespace chisel
         size_t currentNum = chunks.size() * (chunkSize(0) * chunkSize(1) * chunkSize(2));
         float currentMemory = currentNum * sizeof(DistVoxel) / 1000000.0f;
 
-        printf("Num Unknown: %lu, Num KnownIn: %lu, Num KnownOut: %lu Weight: %f\n", stats.numUnknown, stats.numKnownInside, stats.numKnownOutside, stats.totalWeight);
+        printf("Num Unknown: %zu, Num KnownIn: %zu, Num KnownOut: %zu Weight: %f\n", stats.numUnknown, stats.numKnownInside, stats.numKnownOutside, stats.totalWeight);
         printf("Bounds: %f %f %f %f %f %f\n", totalBounds.min.x(), totalBounds.min.y(), totalBounds.min.z(), totalBounds.max.x(), totalBounds.max.y(), totalBounds.max.z());
         printf("Theoretical max (MB): %f, Current (MB): %f\n", maxMemory, currentMemory);
 

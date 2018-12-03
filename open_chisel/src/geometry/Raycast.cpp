@@ -93,9 +93,9 @@ void Raycast(const Vec3& start, const Vec3& end, const Point3& min, const Point3
     float maxDist = direction.squaredNorm();
 
     // Break out direction vector.
-    float dx = endX - x;
-    float dy = endY - y;
-    float dz = endZ - z;
+    float dx = float(endX - x);
+    float dy = float(endY - y);
+    float dz = float(endZ - z);
 
     // Direction to increment x,y,z when stepping.
     int stepX = (int)signum((int)dx);
@@ -128,7 +128,7 @@ void Raycast(const Vec3& start, const Vec3& end, const Point3& min, const Point3
         {
             output->push_back(Point3(x, y, z));
 
-            dist = (Vec3(x, y, z) - start).squaredNorm();
+            dist = (Vec3(float(x), float(y), float(z)) - start).squaredNorm();
 
             if (dist > maxDist) return;
 

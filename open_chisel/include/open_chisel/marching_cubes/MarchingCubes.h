@@ -129,11 +129,11 @@ namespace chisel
             // zero crossing (surface) value.
             static inline Vec3 InterpolateVertex(const Vec3& vertex1, const Vec3& vertex2, const float& sdf1, const float& sdf2)
             {
-                const float minDiff = 1e-6;
+                const float minDiff = 1e-6f;
                 const float sdfDiff = sdf1 - sdf2;
                 if (fabs(sdfDiff) < minDiff)
                 {
-                    return Vec3(vertex1 + 0.5 * vertex2);
+                    return Vec3(vertex1 + 0.5f * vertex2);
                 }
                 const float t = sdf1 / sdfDiff;
                 return Vec3(vertex1 + t * (vertex2 - vertex1));

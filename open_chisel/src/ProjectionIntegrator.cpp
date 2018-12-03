@@ -99,7 +99,7 @@ namespace chisel
                 }
                 else if (enableVoxelCarving && u > truncation + carvingDist)
                 {
-                    if (distVoxel.GetWeight() > 0 && distVoxel.GetSDF() < 0.0f)
+                    if (distVoxel.GetWeight() > 0.0f && distVoxel.GetSDF() < 0.0f)
                     {
                         distVoxel.Carve();
                         updated = true;
@@ -158,9 +158,9 @@ namespace chisel
                 }
                 else if (enableVoxelCarving && u > truncation + carvingDist)
                 {
-                    if (distVoxel.GetWeight() > 0)
+                    if (distVoxel.GetWeight() > 0.0f)
                     {
-                        distVoxel.Integrate(1.0e-5, 5.0f);
+                        distVoxel.Integrate(1.0e-5f, 5.0f);
                         updated = true;
                     }
                 }
