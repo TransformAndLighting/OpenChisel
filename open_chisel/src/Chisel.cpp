@@ -141,7 +141,7 @@ namespace chisel
 
               raycastVoxels.clear();
               Raycast(start, end, minVal, maxVal, &raycastVoxels);
-              if (raycastVoxels.size() > 500)
+              if (false && raycastVoxels.size() > 500)
               {
                   std::cerr << "Error, too many racyast voxels." << std::endl;
                   throw std::out_of_range("Too many raycast voxels");
