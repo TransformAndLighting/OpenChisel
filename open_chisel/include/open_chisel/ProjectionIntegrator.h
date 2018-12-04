@@ -93,7 +93,7 @@ namespace chisel
                     if (fabs(surfaceDist) < truncation + diag)
                     {
                         DistVoxel& voxel = chunk->GetDistVoxelMutable(i);
-                        voxel.Integrate(surfaceDist, 1.0f);
+                        voxel.Integrate(surfaceDist, weighter->GetWeight(surfaceDist, truncation));
                         updated = true;
                     }
                     else if (enableVoxelCarving && surfaceDist > truncation + carvingDist)
