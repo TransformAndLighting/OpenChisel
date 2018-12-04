@@ -47,6 +47,7 @@ namespace chisel
 
             float GetTruncationDistance(float reading) const
             {
+                (void)reading;
                 return truncationDistance;
             }
 

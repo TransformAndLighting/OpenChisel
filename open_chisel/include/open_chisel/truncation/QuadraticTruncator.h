@@ -46,7 +46,7 @@ namespace chisel
 
             float GetTruncationDistance(float reading) const
             {
-                return std::abs(GetQuadraticTerm() * pow(reading, 2) + GetLinearTerm() * reading + GetConstantTerm()) * scalingFactor;
+                return std::abs(GetQuadraticTerm() * pow(reading, 2.0f) + GetLinearTerm() * reading + GetConstantTerm()) * scalingFactor;
             }
 
             inline float GetQuadraticTerm() const { return quadraticTerm; }

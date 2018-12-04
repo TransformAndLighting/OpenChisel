@@ -42,7 +42,7 @@ namespace chisel
 
             virtual float GetWeight(float surfaceDist, float truncationDist) const
             {
-                return weight / (2 * truncationDist);
+                return weight / (2.0f * truncationDist);
             }
 
         protected:
