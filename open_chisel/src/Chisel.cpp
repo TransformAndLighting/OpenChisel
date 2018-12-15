@@ -59,18 +59,18 @@ namespace chisel
 
     void Chisel::GarbageCollect(const ChunkIDList& chunks)
     {
-        std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes before collect.";
+        //std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes before collect.";
        for (const ChunkID& chunkID : chunks)
        {
            chunkManager->RemoveChunk(chunkID);
            meshesToUpdate.erase(chunkID);
        }
-        std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes after collect.";
+        //std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes after collect.";
     }
 
     bool Chisel::SaveAllMeshesToPLY(const std::string& filename)
     {
-        printf("Saving all meshes to PLY file...\n");
+        //printf("Saving all meshes to PLY file...\n");
 
         chisel::MeshPtr fullMesh(new chisel::Mesh());
 
@@ -95,13 +95,13 @@ namespace chisel
             }
         }
 
-        printf("Full mesh has %zu verts\n", v);
+        //printf("Full mesh has %zu verts\n", v);
         //bool success = SaveMeshPLYASCII(filename, fullMesh);
-        bool success = SaveMeshPLYBinary(filename, fullMesh);
+        const bool success = SaveMeshPLYBinary(filename, fullMesh);
 
         if (!success)
         {
-            printf("Saving failed!\n");
+            //printf("Saving failed!\n");
         }
 
         return success;
