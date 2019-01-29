@@ -59,13 +59,13 @@ namespace chisel
 
     void Chisel::GarbageCollect(const ChunkIDList& chunks)
     {
-        std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes before collect.";
+        //std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes before collect.";
        for (const ChunkID& chunkID : chunks)
        {
            chunkManager->RemoveChunk(chunkID);
            meshesToUpdate.erase(chunkID);
        }
-        std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes after collect.";
+        //std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes after collect.";
     }
 
     MeshPtr Chisel::AssembledMesh(void) const
@@ -73,12 +73,12 @@ namespace chisel
         MeshPtr fullMesh(new chisel::Mesh());
 
         size_t v = 0;
-        for (const std::pair<ChunkID, MeshPtr>& it : chunkManager->GetAllMeshes())
+        for (const std::pair<ChunkID, MeshPtr> & it : chunkManager->GetAllMeshes())
         {
             for (const Vec3& vert : it.second->vertices)
             {
-                fullMesh->vertices.push_back(vert);
-                fullMesh->indices.push_back(v);
+                fullMesh->vertices .push_back(vert);
+                fullMesh->indices  .push_back(v   );
                 v++;
             }
 
@@ -98,17 +98,17 @@ namespace chisel
 
     bool Chisel::SaveAllMeshesToPLY(const std::string& filename)
     {
-        printf("Saving all meshes to PLY file...\n");
+        //printf("Saving all meshes to PLY file...\n");
 
         const auto fullMesh = AssembledMesh();
 
-        printf("Full mesh has %zu verts\n", v);
+        //printf("Full mesh has %zu verts\n", v);
         //bool success = SaveMeshPLYASCII(filename, fullMesh);
         bool success = SaveMeshPLYBinary(filename, fullMesh);
 
         if (!success)
         {
-            printf("Saving failed!\n");
+            //printf("Saving failed!\n");
         }
 
         return success;
