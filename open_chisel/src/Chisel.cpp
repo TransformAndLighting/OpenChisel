@@ -68,11 +68,9 @@ namespace chisel
         std::cout << chunkManager->GetChunks().size() << " chunks " << chunkManager->GetAllMeshes().size() << "meshes after collect.";
     }
 
-    bool Chisel::SaveAllMeshesToPLY(const std::string& filename)
+    MeshPtr Chisel::AssembledMesh(void) const
     {
-        printf("Saving all meshes to PLY file...\n");
-
-        chisel::MeshPtr fullMesh(new chisel::Mesh());
+        MeshPtr fullMesh(new chisel::Mesh());
 
         size_t v = 0;
         for (const std::pair<ChunkID, MeshPtr>& it : chunkManager->GetAllMeshes())
@@ -94,6 +92,15 @@ namespace chisel
                 fullMesh->normals.push_back(normal);
             }
         }
+
+        return fullMesh;
+    }
+
+    bool Chisel::SaveAllMeshesToPLY(const std::string& filename)
+    {
+        printf("Saving all meshes to PLY file...\n");
+
+        const auto fullMesh = AssembledMesh();
 
         printf("Full mesh has %zu verts\n", v);
         //bool success = SaveMeshPLYASCII(filename, fullMesh);

@@ -189,6 +189,7 @@ namespace chisel
             void GarbageCollect(const ChunkIDList& chunks);
             void UpdateMeshes();
 
+            MeshPtr AssembledMesh(void) const;
             bool SaveAllMeshesToPLY(const std::string& filename);
             void Reset();
 
