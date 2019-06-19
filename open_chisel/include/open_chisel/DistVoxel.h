@@ -45,13 +45,12 @@ namespace chisel
 				const float truncation = 16.0f * voxelSize;
 
 				auto nonzero = bins;
-				const auto end = std::partition(nonzero.begin(), nonzero.end(), [](const std::pair<float, int> & item)
+				const auto end = std::stable_partition(nonzero.begin(), nonzero.end(), [](const std::pair<float, int> & item)
 				{
 					return (item.second > 0);
 				});
 
 				std::vector<std::pair<float, int>>::iterator median = nonzero.begin() + (std::distance(nonzero.begin(), end) / 2);
-				std::nth_element(nonzero.begin(), median, end);
 				if (median == end) return 99999.0f;
 
 				return median->first;
