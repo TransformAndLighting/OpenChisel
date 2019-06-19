@@ -26,8 +26,17 @@ namespace chisel
 
     DistVoxel::DistVoxel() :
             sdf(99999), weight(0)
+		, bins()
     {
+		const float voxelSize  = 0.002f;
+		const float truncation = 16.0f * voxelSize;
 
+		bins.resize(16);
+		for (size_t i = 0; i < bins.size(); ++i)
+		{
+			bins[i].first  = ((float(i+1) / float(bins.size())) * 2.0f - 1.0f) * truncation;
+			bins[i].second = int(0);
+		}
     }
 
     DistVoxel::~DistVoxel()

@@ -23,6 +23,7 @@
 #define DISTVOXEL_H_
 
 #include <limits>
+#include <vector>
 #include <stdint.h>
 
 #include <open_chisel/FixedPointFloat.h>
@@ -38,8 +39,23 @@ namespace chisel
 
             inline float GetSDF() const
             {
-                return sdf;
-            }
+                //return sdf;
+
+				const float voxelSize  = 0.002f;
+				const float truncation = 16.0f * voxelSize;
+
+				auto nonzero = bins;
+				const auto end = std::partition(nonzero.begin(), nonzero.end(), [](const std::pair<float, int> & item)
+				{
+					return (item.second > 0);
+				});
+
+				std::vector<std::pair<float, int>>::iterator median = nonzero.begin() + (std::distance(nonzero.begin(), end) / 2);
+				std::nth_element(nonzero.begin(), median, end);
+				if (median == end) return 99999.0f;
+
+				return median->first;
+			}
 
             inline void SetSDF(const float& distance)
             {
@@ -51,12 +67,27 @@ namespace chisel
 
             inline void Integrate(const float& distUpdate, const float& weightUpdate)
             {
-                float oldSDF = GetSDF();
+				//float oldSDF = GetSDF();
+				float oldSDF = sdf;
                 float oldWeight = GetWeight();
                 float newDist = (oldWeight * oldSDF + weightUpdate * distUpdate) / (weightUpdate + oldWeight);
                 SetSDF(newDist);
                 SetWeight(oldWeight + weightUpdate);
 
+				{
+					const float voxelSize  = 0.002f;
+					const float truncation = 16.0f * voxelSize;
+
+					float dist = distUpdate;
+					if (dist < -truncation) dist = -truncation;
+					if (dist > +truncation) dist = +truncation;
+
+					int bin = int(((dist / truncation) * 0.5f + 0.5f) * float(bins.size()));
+					if (bin < 0) bin = 0;
+					if (bin >= int(bins.size())) bin = int(bins.size()) - 1;
+
+					bins[bin].second++;
+				}
             }
 
             inline void Carve()
@@ -74,6 +105,8 @@ namespace chisel
         protected:
            float sdf;
            float weight;
+
+		   std::vector<std::pair<float, int>> bins;
     };
 
 } // namespace chisel 
