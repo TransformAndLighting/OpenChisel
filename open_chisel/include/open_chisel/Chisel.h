@@ -60,6 +60,12 @@ namespace chisel
 
             void IntegratePointCloud(const ProjectionIntegrator& integrator,
                                      const PointCloud& cloud,
+                                     const Vec3& startCamera,
+                                     const Transform& extrinsic,
+                                     float maxDist);
+
+            void IntegratePointCloud(const ProjectionIntegrator& integrator,
+                                     const PointCloud& cloud,
                                      const Transform& extrinsic,
                                      float maxDist);
 

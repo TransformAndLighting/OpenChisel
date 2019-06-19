@@ -116,6 +116,7 @@ namespace chisel
 
     void Chisel::IntegratePointCloud(const ProjectionIntegrator& integrator,
                                      const PointCloud& cloud,
+                                     const Vec3& startCamera,
                                      const Transform& cameraPose,
                                      float maxDist)
     {
@@ -124,7 +125,6 @@ namespace chisel
           const Vec3 halfVoxel = Vec3(0.5, 0.5, 0.5) * chunkManager->GetResolution();
           std::unordered_map<ChunkID, bool, ChunkHasher> updated;
           std::unordered_map<ChunkID, bool, ChunkHasher> newChunks;
-          const Vec3 startCamera = cameraPose.translation();
           const Transform inversePose = cameraPose.inverse();
           const Point3 minVal(-std::numeric_limits<int>::max(), -std::numeric_limits<int>::max(), -std::numeric_limits<int>::max());
           const Point3 maxVal(std::numeric_limits<int>::max(), std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
@@ -219,6 +219,15 @@ namespace chisel
           }
 
           GarbageCollect(garbageChunks);
+    }
+
+    void Chisel::IntegratePointCloud(const ProjectionIntegrator& integrator,
+                                     const PointCloud& cloud,
+                                     const Transform& cameraPose,
+                                     float maxDist)
+    {
+          const Vec3 startCamera = cameraPose.translation();
+          IntegratePointCloud(integrator, cloud, startCamera, cameraPose, maxDist);
     }
 
 
