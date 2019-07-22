@@ -23,7 +23,7 @@
 #define DISTVOXEL_H_
 
 #include <limits>
-#include <vector>
+//#include <vector>
 #include <stdint.h>
 
 #include <open_chisel/FixedPointFloat.h>
@@ -39,21 +39,25 @@ namespace chisel
 
             inline float GetSDF() const
             {
-                //return sdf;
-
-				const float voxelSize  = 0.002f;
-				const float truncation = 16.0f * voxelSize;
-
-				auto nonzero = bins;
-				const auto end = std::stable_partition(nonzero.begin(), nonzero.end(), [](const std::pair<float, int> & item)
+				#if 0
 				{
-					return (item.second > 0);
-				});
+					const float voxelSize  = 0.002f;
+					const float truncation = 16.0f * voxelSize;
 
-				std::vector<std::pair<float, int>>::iterator median = nonzero.begin() + (std::distance(nonzero.begin(), end) / 2);
-				if (median == end) return 99999.0f;
+					auto nonzero = bins;
+					const auto end = std::stable_partition(nonzero.begin(), nonzero.end(), [](const std::pair<float, int> & item)
+					{
+						return (item.second > 0);
+					});
 
-				return median->first;
+					std::vector<std::pair<float, int>>::iterator median = nonzero.begin() + (std::distance(nonzero.begin(), end) / 2);
+					if (median == end) return 99999.0f;
+
+					return median->first;
+				}
+				#endif
+
+				return sdf;
 			}
 
             inline void SetSDF(const float& distance)
@@ -66,13 +70,13 @@ namespace chisel
 
             inline void Integrate(const float& distUpdate, const float& weightUpdate)
             {
-				//float oldSDF = GetSDF();
-				float oldSDF = sdf;
+				float oldSDF = GetSDF();
                 float oldWeight = GetWeight();
                 float newDist = (oldWeight * oldSDF + weightUpdate * distUpdate) / (weightUpdate + oldWeight);
                 SetSDF(newDist);
                 SetWeight(oldWeight + weightUpdate);
 
+				#if 0
 				{
 					const float voxelSize  = 0.002f;
 					const float truncation = 16.0f * voxelSize;
@@ -87,6 +91,7 @@ namespace chisel
 
 					bins[bin].second++;
 				}
+				#endif
             }
 
             inline void Carve()
@@ -105,7 +110,7 @@ namespace chisel
            float sdf;
            float weight;
 
-		   std::vector<std::pair<float, int>> bins;
+		   //std::vector<std::pair<float, int>> bins;
     };
 
 } // namespace chisel 
