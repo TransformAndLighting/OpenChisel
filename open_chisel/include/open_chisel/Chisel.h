@@ -22,7 +22,10 @@
 #ifndef CHISEL_H_
 #define CHISEL_H_
 
+#include <stdlib.h>
+#ifdef _WIN32
 #include <malloc.h>
+#endif
 
 #include <open_chisel/threading/Threading.h>
 #include <open_chisel/chunkManager.h>
