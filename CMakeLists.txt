@@ -1,3 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
+SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_EXTENSIONS OFF)
+
 add_subdirectory(open_chisel)
