@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(openchisel)
 
-SET(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
 
 set(HEADERS
 )

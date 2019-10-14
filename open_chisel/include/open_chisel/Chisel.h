@@ -22,6 +22,7 @@
 #ifndef CHISEL_H_
 #define CHISEL_H_
 
+#include <cstdlib>
 #include <stdlib.h>
 #ifdef _WIN32
 #include <malloc.h>
@@ -45,12 +46,12 @@ namespace chisel
 
             void * operator new(size_t i)
             {
-                return std::aligned_malloc(i, 64); //_aligned_malloc(i, 64);
+                return aligned_malloc(i, 64); //_aligned_malloc(i, 64);
             }
 
             void operator delete(void * p)
             {
-				std::free(p);//_aligned_free(p);
+                free(p);//_aligned_free(p);
             }
 
             Chisel();
