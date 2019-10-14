@@ -22,9 +22,10 @@
 #ifndef CHISEL_H_
 #define CHISEL_H_
 
+#if defined(__APPLE__) || defined(__linux__)
 #include <cstdlib>
 #include <stdlib.h>
-#ifdef _WIN32
+#elif defined(_WIN32)
 #include <malloc.h>
 #endif
 
@@ -46,12 +47,22 @@ namespace chisel
 
             void * operator new(size_t i)
             {
-                return aligned_alloc(i, 64); //_aligned_malloc(i, 64);
+                #if defined(__APPLE__) || defined(__linux__)
+                void * pointer;
+                posix_memalign(&pointer, 64, i);
+                return pointer;
+                #elif defined(_WIN32)
+                return _aligned_malloc(i, 64);
+                #endif
             }
 
             void operator delete(void * p)
             {
-                free(p);//_aligned_free(p);
+                #if defined(__APPLE__) || defined(__linux__)
+                free(p);
+                #elif defined(_WIN32)
+                _aligned_free(p);
+                #endif
             }
 
             Chisel();
