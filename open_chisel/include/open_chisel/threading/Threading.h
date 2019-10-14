@@ -27,6 +27,7 @@
 #include <thread>
 #include <algorithm>
 #include <vector>
+#include <iosfwd>
 
 namespace chisel
 {
