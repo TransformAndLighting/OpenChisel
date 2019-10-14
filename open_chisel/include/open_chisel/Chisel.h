@@ -46,12 +46,12 @@ namespace chisel
 
             void * operator new(size_t i)
             {
-                return std::aligned_alloc(i, 64); //_aligned_malloc(i, 64);
+                return aligned_alloc(i, 64); //_aligned_malloc(i, 64);
             }
 
             void operator delete(void * p)
             {
-                std::free(p);//_aligned_free(p);
+                free(p);//_aligned_free(p);
             }
 
             Chisel();
